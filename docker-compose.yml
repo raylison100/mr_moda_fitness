@@ -1,0 +1,78 @@
+version: "3.7"
+services:
+    mr_moda_fitness:
+        build:
+            args:
+                user: mr_moda_fitness
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        container_name: mr_moda_fitness
+        working_dir: /var/www/
+        restart: unless-stopped
+        depends_on:
+            -   mysql
+            -   redis
+        volumes:
+            - ./:/var/www
+        networks:
+            - mr_modas_fitness
+
+    nginx_api_mr_moda_fitness:
+        image: nginx:alpine
+        container_name: nginx_api_mr_moda_fitness
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+            - ./.setup/nginx/:/etc/nginx/conf.d/
+        ports:
+            - "8000:80"
+        networks:
+            - mr_modas_fitness
+
+    mysql:
+        image: mysql:5.7.22
+        container_name: mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./.data/mysql/dbdata:/var/lib/mysql
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-buffer-pool-size=4G
+        ports:
+            - 3306:3306
+        networks:
+            - mr_modas_fitness
+
+    redis:
+        image: redis:latest
+        container_name: redis
+        networks:
+            - mr_modas_fitness
+
+    redis-commander:
+        container_name: redis-commander
+        image: rediscommander/redis-commander
+        environment:
+            - REDIS_HOSTS=redis:redis:6379
+        depends_on:
+            - redis
+        networks:
+            - mr_modas_fitness
+
+    pma:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: phpmyadmin
+        ports:
+            - "9000:80"
+        environment:
+            - PMA_ARBITRARY=1
+        networks:
+            - mr_modas_fitness
+
+networks:
+    mr_modas_fitness:
+        driver: bridge
