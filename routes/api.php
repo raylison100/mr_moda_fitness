@@ -26,27 +26,39 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'categories'], function () {
-        Route::apiResource('', CategoriesController::class);
+        Route::apiResource('', CategoriesController::class)->parameters([
+            '' => 'id'
+        ]);
     });
 
     Route::group(['prefix' => 'departments'], function () {
-        Route::apiResource('', DepartmentsController::class);
+        Route::apiResource('', DepartmentsController::class)->parameters([
+            '' => 'id'
+        ]);
     });
 
     Route::group(['prefix' => 'invoicings'], function () {
-        Route::get('', [InvoicingsController::class, 'index']);
+        Route::apiResource('', InvoicingsController::class)->parameters([
+            '' => 'id'
+        ]);
     });
 
     Route::group(['prefix' => 'products'], function () {
-        Route::get('', [ProductsController::class, 'index']);
+        Route::apiResource('', ProductsController::class)->parameters([
+            '' => 'id'
+        ]);
     });
 
     Route::group(['prefix' => 'sales'], function () {
-        Route::get('', [SalesController::class, 'index']);
+        Route::apiResource('', SalesController::class)->parameters([
+            '' => 'id'
+        ]);
     });
 
     Route::group(['prefix' => 'spendings'], function () {
-        Route::get('', [SpendingsController::class, 'index']);
+        Route::apiResource('', SpendingsController::class)->parameters([
+            '' => 'id'
+        ]);
     });
 
     Route::group(['prefix' => 'sub-categories'], function () {
@@ -57,6 +69,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 Route::any('/{any}', function () {
-    return ['message' => 'Invalid Router', 'error' => true];
+    return response()->json(['message' => 'Invalid Router', 'error' => true], 404);
 })->where('any', '.*');
 

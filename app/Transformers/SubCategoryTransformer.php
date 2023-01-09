@@ -23,6 +23,7 @@ class SubCategoryTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
+            'category_id' => $model->category_id,
             'name' => $model->name,
         ];
     }
