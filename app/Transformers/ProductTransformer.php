@@ -23,9 +23,14 @@ class ProductTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
-
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'name' => $model->name,
+            "purchase_price"=> $model->purchase_price,
+            "percentage_on_sale"=> $model->percentage_on_sale,
+            "final_value"=> $model->final_value,
+            "sub_category_id"=> $model->sub_category_id,
+            "product_type"=> $model->product_type,
+            "size"=> $model->stock?->size,
+            "qtd"=> $model->stock?->qtd
         ];
     }
 }

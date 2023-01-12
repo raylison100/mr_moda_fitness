@@ -5,6 +5,7 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -30,6 +31,11 @@ class Product extends Model implements Transformable
         'created_at',
         'updated_at',
     ];
+
+    public function stock(): HasOne
+    {
+        return $this->hasOne(Stock::class);
+    }
 
     public function subCategory(): BelongsTo
     {
