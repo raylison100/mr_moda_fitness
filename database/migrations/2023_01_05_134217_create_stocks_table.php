@@ -23,7 +23,7 @@ class CreateStocksTable extends Migration
             $table->integer('qtd');
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
         });
     }
 

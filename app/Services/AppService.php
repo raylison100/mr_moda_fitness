@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Prettus\Repository\Contracts\RepositoryInterface;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
  * AppService
@@ -17,7 +18,10 @@ class AppService
      */
     public function all(int $limit = 20): mixed
     {
-        return $this->repository->paginate($limit);
+        return $this->repository
+            ->resetCriteria()
+            ->pushCriteria(app(RequestCriteria::class))
+            ->paginate($limit);
     }
 
     /**
@@ -30,7 +34,7 @@ class AppService
         if (isset($data['password']) && !empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
-        return $skipPresenter ? $this->repository->skipPresenter()->create($data) : $this->repository->create($data);
+        return $this->repository->skipPresenter($skipPresenter)->create($data);
     }
 
     /**
@@ -40,10 +44,7 @@ class AppService
      */
     public function find($id, bool $skipPresenter = false): mixed
     {
-        if ($skipPresenter) {
-            return $this->repository->skipPresenter()->find($id);
-        }
-        return $this->repository->find($id);
+        return $this->repository->skipPresenter($skipPresenter)->find($id);
     }
 
     /**
@@ -57,10 +58,7 @@ class AppService
         if (isset($data['password']) && !empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
-        return $skipPresenter ? $this->repository->skipPresenter()->update($data, $id) : $this->repository->update(
-            $data,
-            $id
-        );
+        return $this->repository->skipPresenter($skipPresenter)->update($data, $id);
     }
 
     /**

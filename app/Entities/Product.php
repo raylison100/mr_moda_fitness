@@ -32,9 +32,9 @@ class Product extends Model implements Transformable
         'updated_at',
     ];
 
-    public function stock(): HasOne
+    public function stocks(): HasMany
     {
-        return $this->hasOne(Stock::class);
+        return $this->hasMany(Stock::class);
     }
 
     public function subCategory(): BelongsTo
