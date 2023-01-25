@@ -23,9 +23,31 @@ class SaleTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
-
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'amount' => $model->amount,
+            'installment' => $model->installment,
+            'installment_qtd' => $model->installment_qtd,
+            'installment_value' => $model->installment_value,
+            'cash_value' => $model->cash_value,
+            'discount_value' => $model->discount_value,
+            "itens" => $this->getItens($model),
         ];
+    }
+
+    private function getItens(Sale $model): array
+    {
+        $itens = [];
+
+        foreach ($model->saleItens as $iten){
+            $itens[] = [
+                'qtd' => $iten->qtd,
+                'amount' => $iten->amount,
+                'product' => [
+                    'id' => $iten->product->id,
+                    'name' => $iten->product->name,
+                ],
+            ];
+        }
+
+        return $itens;
     }
 }

@@ -58,5 +58,4 @@ class ProductTransformer extends TransformerAbstract
 
         return $stocks;
     }
-
 }
