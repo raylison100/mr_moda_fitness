@@ -23,6 +23,7 @@ class Stock extends Model implements Transformable
      */
     protected $fillable = [
         'size',
+        'code',
         'product_id',
         'qtd'
     ];

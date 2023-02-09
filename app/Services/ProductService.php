@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\ProductRepository;
 use App\Repositories\StockRepository;
+use App\Transformers\ProductTransformer;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -39,6 +40,7 @@ class ProductService extends AppService
     {
         try {
             DB::beginTransaction();
+
             $product = $this->repository->skipPresenter()->create($data);
             $productId = $product->id;
 
@@ -46,6 +48,7 @@ class ProductService extends AppService
 
             array_map(function ($item) use ($productId) {
                 $item['product_id'] = $productId;
+                $item['code'] = uniqid();
 
                 $this->stockRepository->create($item);
             }, $stock);
@@ -89,5 +92,19 @@ class ProductService extends AppService
             Log::error($exception->getMessage());
             throw new Exception('Error ao atualizar produto', 500);
         }
+    }
+
+    /**
+     * @param string $code
+     * @return array
+     */
+    public function findByCode(string $code): array
+    {
+        $product = $this->repository->skipPresenter()->whereHas('stocks', function ($q) use ($code) {
+            return $q->where('code', '=', $code)
+                ->where('qtd', '>', 0);
+        })->first();
+
+        return $product ? ['data' => (new ProductTransformer())->transform($product)] : [];
     }
 }

@@ -24,6 +24,7 @@ class ProductTransformer extends TransformerAbstract
         return [
             'id' => (int)$model->id,
             'name' => $model->name,
+            'code' => $model->code,
             "purchase_price" => $model->purchase_price,
             "percentage_on_sale" => $model->percentage_on_sale,
             "final_value" => $model->final_value,
@@ -50,7 +51,7 @@ class ProductTransformer extends TransformerAbstract
 
         foreach ($model->stocks as $iten){
             $stocks[] = [
-                'id' => $iten->id,
+                'code' => $iten->code,
                 'size' => $iten->size,
                 'qtd' => $iten->qtd,
             ];

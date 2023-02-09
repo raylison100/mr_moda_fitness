@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::group(['prefix' => 'products'], function () {
+        Route::get('code/{code}',  [ProductsController::class, 'findByCode']);
         Route::apiResource('', ProductsController::class)->parameters([
             '' => 'id'
         ]);
