@@ -19,7 +19,7 @@ class SaleIten extends Model implements Transformable
     protected $fillable = [
         'qtd',
         'amount',
-        'product_id',
+        'stock_id',
         'sale_id',
     ];
 
@@ -28,9 +28,9 @@ class SaleIten extends Model implements Transformable
         'updated_at',
     ];
 
-    public function product(): BelongsTo
+    public function stock(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Stock::class);
     }
 
     public function sale(): BelongsTo

@@ -110,18 +110,16 @@ class ProductService extends AppService
 
     /**
      * @param string $code
-     * @param int $productId
      * @param int $qtd
      * @return bool
      */
-    public function checkStock(string $code, int $productId, int $qtd): bool
+    public function checkStock(string $code, int $qtd): bool
     {
         $hasStock = true;
 
         $stock = $this->stockRepository
             ->skipPresenter()->findWhere([
-                'code' => $code,
-                'product_id' => $productId
+                'code' => $code
             ])->first();
 
         if ($stock->qtd < $qtd) {
@@ -133,16 +131,14 @@ class ProductService extends AppService
 
     /**
      * @param string $code
-     * @param int $productId
      * @param int $qtd
      * @return void
      */
-    public function updateStock(string $code, int $productId, int $qtd): void
+    public function updateStock(string $code, int $qtd): void
     {
         $stock = $this->stockRepository
             ->skipPresenter()->findWhere([
-                'code' => $code,
-                'product_id' => $productId
+                'code' => $code
             ])->first();
 
         $stockQtd = $stock->qtd;
@@ -150,5 +146,13 @@ class ProductService extends AppService
         $this->stockRepository->update([
             'qtd' => ($stockQtd - $qtd)
         ], $stock->id);
+    }
+
+    public function findStockByCode(string $code)
+    {
+        return $this->stockRepository
+            ->skipPresenter()->findWhere([
+                'code' => $code
+            ])->first();
     }
 }

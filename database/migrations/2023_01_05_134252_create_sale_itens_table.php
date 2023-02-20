@@ -20,11 +20,11 @@ class CreateSaleItensTable extends Migration
             $table->bigIncrements('id');
             $table->integer('qtd');
             $table->float('amount');
-            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('stock_id')->unsigned();
             $table->bigInteger('sale_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('stock_id')->references('id')->on('stocks');
             $table->foreign('sale_id')->references('id')->on('sales');
         });
     }

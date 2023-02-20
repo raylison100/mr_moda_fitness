@@ -53,7 +53,6 @@ class SaleService extends AppService
         foreach ($itens as $item) {
             if (!$this->productService->checkStock(
                 $item['stock']['code'],
-                $item['product_id'],
                 $item['stock']['qtd']
             )) {
                 throw new Exception('Estoque nao disponivel para o produto: ' . $item['code'], 406);
@@ -66,16 +65,17 @@ class SaleService extends AppService
             $sale = $this->repository->skipPresenter()->create($data);
 
             foreach ($itens as $item) {
+                $stock = $this->productService->findStockByCode($item['stock']['code']);
+
                 $this->saleItenRepository->create([
                     'qtd' => $item['stock']['qtd'],
                     'amount' => $item['total_itens'],
-                    'product_id' => $item['product_id'],
+                    'stock_id' => $stock->id,
                     'sale_id' => $sale->id
                 ]);
 
                 $this->productService->updateStock(
                     $item['stock']['code'],
-                    $item['product_id'],
                     $item['stock']['qtd']
                 );
             }
