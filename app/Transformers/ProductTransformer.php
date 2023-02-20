@@ -25,9 +25,9 @@ class ProductTransformer extends TransformerAbstract
             'id' => (int)$model->id,
             'name' => $model->name,
             'code' => $model->code,
-            "purchase_price" => $model->purchase_price,
+            "purchase_price" => number_format($model->purchase_price,2),
             "percentage_on_sale" => $model->percentage_on_sale,
-            "final_value" => $model->final_value,
+            "final_value" => number_format($model->final_value,2),
             "product_type" => $model->product_type,
             "stocks" => $this->getStocks($model),
             "departament" => [

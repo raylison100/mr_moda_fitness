@@ -107,4 +107,48 @@ class ProductService extends AppService
 
         return $product ? ['data' => (new ProductTransformer())->transform($product)] : [];
     }
+
+    /**
+     * @param string $code
+     * @param int $productId
+     * @param int $qtd
+     * @return bool
+     */
+    public function checkStock(string $code, int $productId, int $qtd): bool
+    {
+        $hasStock = true;
+
+        $stock = $this->stockRepository
+            ->skipPresenter()->findWhere([
+                'code' => $code,
+                'product_id' => $productId
+            ])->first();
+
+        if ($stock->qtd < $qtd) {
+            $hasStock = false;
+        }
+
+        return $hasStock;
+    }
+
+    /**
+     * @param string $code
+     * @param int $productId
+     * @param int $qtd
+     * @return void
+     */
+    public function updateStock(string $code, int $productId, int $qtd): void
+    {
+        $stock = $this->stockRepository
+            ->skipPresenter()->findWhere([
+                'code' => $code,
+                'product_id' => $productId
+            ])->first();
+
+        $stockQtd = $stock->qtd;
+
+        $this->stockRepository->update([
+            'qtd' => ($stockQtd - $qtd)
+        ], $stock->id);
+    }
 }

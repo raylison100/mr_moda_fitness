@@ -23,12 +23,12 @@ class SaleTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
-            'amount' => $model->amount,
+            'amount' => number_format($model->amount, 2),
             'installment' => $model->installment,
             'installment_qtd' => $model->installment_qtd,
-            'installment_value' => $model->installment_value,
-            'cash_value' => $model->cash_value,
-            'discount_value' => $model->discount_value,
+            'installment_value' => number_format($model->installment_value, 2),
+            'cash_value' => number_format($model->cash_value ?? 0, 2),
+            'discount_value' => number_format($model->discount_value ?? 0, 2),
             "itens" => $this->getItens($model),
         ];
     }
@@ -37,7 +37,7 @@ class SaleTransformer extends TransformerAbstract
     {
         $itens = [];
 
-        foreach ($model->saleItens as $iten){
+        foreach ($model->saleItens as $iten) {
             $itens[] = [
                 'qtd' => $iten->qtd,
                 'amount' => $iten->amount,

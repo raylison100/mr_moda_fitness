@@ -21,9 +21,9 @@ class CreateSalesTable extends Migration
             $table->float('amount');
             $table->boolean('installment');
             $table->integer('installment_qtd');
-            $table->float('installment_value');
-            $table->float('cash_value');
-            $table->float('discount_value');
+            $table->float('installment_value')->nullable()->default(0);
+            $table->float('cash_value')->nullable()->default(0);
+            $table->float('discount_value')->nullable()->default(0);
             $table->timestamps();
         });
     }
