@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::group(['prefix' => 'sales'], function () {
+        Route::put('cancellation/{id}',  [SalesController::class, 'saleCancellation']);
         Route::apiResource('', SalesController::class)->parameters([
             '' => 'id'
         ]);

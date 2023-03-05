@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\Stock;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
@@ -11,5 +12,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface StockRepository extends RepositoryInterface
 {
-    //
+    public function restoreStockQtd(Stock $stock, int $qtd): void;
 }

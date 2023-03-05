@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Entities\Stock;
+use App\Enuns\SalesStatusEnum;
+use App\Presenters\SaleDetailPresenter;
 use App\Repositories\SaleItenRepository;
 use App\Repositories\SaleRepository;
 use App\Transformers\SaleTransformer;
@@ -62,6 +65,8 @@ class SaleService extends AppService
         try {
             DB::beginTransaction();
 
+            $data['status'] = SalesStatusEnum::CONFIRMED->name;
+
             $sale = $this->repository->skipPresenter()->create($data);
 
             foreach ($itens as $item) {
@@ -110,5 +115,44 @@ class SaleService extends AppService
             Log::error($exception->getMessage());
             throw new Exception('Error ao realizar venda', 500);
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function saleCancellation(int $id): array
+    {
+        try {
+            DB::beginTransaction();
+
+            $sale = $this->repository->skipPresenter()->update([
+                'status' => SalesStatusEnum::CANCELED->name
+            ], $id);
+
+            foreach ($sale->saleItens as $item) {
+                $stock = $item->stock;
+                $this->productService->restoreStockQtd($stock, $item->qtd);
+            }
+
+            DB::commit();
+
+            return ['data' => (new SaleTransformer())->transform($sale)];
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+            throw new Exception('Error ao realizar cancelamento de venda', 500);
+        }
+    }
+
+    /**
+     * @param $id
+     * @param bool $skipPresenter
+     * @return mixed
+     */
+    public function find($id, bool $skipPresenter = false): mixed
+    {
+        return $this->repository
+            ->setPresenter(SaleDetailPresenter::class)
+            ->skipPresenter($skipPresenter)->find($id);
     }
 }

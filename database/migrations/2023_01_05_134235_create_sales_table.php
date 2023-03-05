@@ -19,11 +19,12 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('amount');
-            $table->boolean('installment');
-            $table->integer('installment_qtd');
+            $table->boolean('installment')->default(false);
+            $table->integer('installment_qtd')->nullable();
             $table->float('installment_value')->nullable()->default(0);
             $table->float('cash_value')->nullable()->default(0);
             $table->float('discount_value')->nullable()->default(0);
+            $table->enum('status',['PEDDING', 'CONFIRMED', 'CANCELED'])->default('PEDDING');
             $table->timestamps();
         });
     }

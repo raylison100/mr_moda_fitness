@@ -21,4 +21,9 @@ class StockRepositoryEloquent extends BaseRepository implements StockRepository
     {
         return Stock::class;
     }
+
+    public function restoreStockQtd(Stock $stock, int $qtd): void
+    {
+        $stock->increment('qtd', $qtd);
+    }
 }

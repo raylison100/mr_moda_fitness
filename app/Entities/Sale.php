@@ -22,7 +22,8 @@ class Sale extends Model implements Transformable
         'installment_qtd',
         'installment_value',
         'cash_value',
-        'discount_value'
+        'discount_value',
+        'status'
     ];
 
     protected $dates = [

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entities\Stock;
 use App\Repositories\ProductRepository;
 use App\Repositories\StockRepository;
 use App\Transformers\ProductTransformer;
@@ -154,5 +155,10 @@ class ProductService extends AppService
             ->skipPresenter()->findWhere([
                 'code' => $code
             ])->first();
+    }
+
+    public function restoreStockQtd(Stock $stock, int $qtd): void
+    {
+        $this->stockRepository->restoreStockQtd($stock, $qtd);
     }
 }

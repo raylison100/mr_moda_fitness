@@ -10,7 +10,7 @@ use League\Fractal\TransformerAbstract;
  *
  * @package namespace App\Transformers;
  */
-class SaleTransformer extends TransformerAbstract
+class SaleDetailTransformer extends TransformerAbstract
 {
     /**
      * Transform the Sales entity.
@@ -30,6 +30,29 @@ class SaleTransformer extends TransformerAbstract
             'installment_value' => number_format($model->installment_value, 2),
             'cash_value' => number_format($model->cash_value ?? 0, 2),
             'discount_value' => number_format($model->discount_value ?? 0, 2),
+            "itens" => $this->getItens($model),
         ];
+    }
+
+    private function getItens(Sale $model): array
+    {
+        $itens = [];
+
+        foreach ($model->saleItens as $item) {
+            $itens[] = [
+                'qtd' => $item->qtd,
+                'amount' => $item->amount,
+                'stock' => [
+                    'code' => $item->stock->code
+                ],
+                'product' => [
+                    'id' => $item->stock->product->id,
+                    'name' => $item->stock->product->name,
+                    'final_value' => $item->stock->product->final_value,
+                ],
+            ];
+        }
+
+        return $itens;
     }
 }

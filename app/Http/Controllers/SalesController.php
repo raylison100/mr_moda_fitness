@@ -37,4 +37,13 @@ class SalesController extends Controller
             return $this->sendBadResposnse($exception);
         }
     }
+
+    public function saleCancellation(int $id): JsonResponse
+    {
+        try {
+            return response()->json($this->service->saleCancellation($id));
+        } catch (Exception $exception) {
+            return $this->sendBadResposnse($exception);
+        }
+    }
 }
