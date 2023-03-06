@@ -23,9 +23,9 @@ class SpendingTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
-
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'description' => $model->description,
+            'value' => $model->value,
+            'spending_type' => $model->spending_type
         ];
     }
 }
