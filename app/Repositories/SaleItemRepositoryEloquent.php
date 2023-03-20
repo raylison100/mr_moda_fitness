@@ -2,15 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Entities\SaleIten;
+use App\Entities\SaleItem;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
- * Class SaleItens]RepositoryEloquent.
+ * Class SaleItemRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class SaleItenRepositoryEloquent extends BaseRepository implements SaleItenRepository
+class SaleItemRepositoryEloquent extends BaseRepository implements SaleItemRepository
 {
     /**
      * Specify Model class name
@@ -19,6 +19,6 @@ class SaleItenRepositoryEloquent extends BaseRepository implements SaleItenRepos
      */
     public function model(): string
     {
-        return SaleIten::class;
+        return SaleItem::class;
     }
 }

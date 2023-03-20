@@ -31,8 +31,8 @@ class Sale extends Model implements Transformable
         'updated_at',
     ];
 
-    public function saleItens(): HasMany
+    public function saleItems(): HasMany
     {
-        return $this->hasMany(SaleIten::class);
+        return $this->hasMany(SaleItem::class);
     }
 }

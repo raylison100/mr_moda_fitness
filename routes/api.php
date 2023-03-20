@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SpendingsController;
 use App\Http\Controllers\SubCategoriesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,12 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('abilities', [UsersController::class, 'userAbilities'])
+            ->middleware(['abilities:auth-read']);
+    });
+
+
     Route::group(['prefix' => 'categories'], function () {
         Route::apiResource('', CategoriesController::class)->parameters([
             '' => 'id'
@@ -44,14 +51,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::group(['prefix' => 'products'], function () {
-        Route::get('code/{code}',  [ProductsController::class, 'findByCode']);
+        Route::get('code/{code}', [ProductsController::class, 'findByCode']);
         Route::apiResource('', ProductsController::class)->parameters([
             '' => 'id'
         ]);
     });
 
     Route::group(['prefix' => 'sales'], function () {
-        Route::put('cancellation/{id}',  [SalesController::class, 'saleCancellation']);
+        Route::put('cancellation/{id}', [SalesController::class, 'saleCancellation']);
         Route::apiResource('', SalesController::class)->parameters([
             '' => 'id'
         ]);

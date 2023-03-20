@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Entities\Stock;
 use App\Enuns\SalesStatusEnum;
 use App\Presenters\SaleDetailPresenter;
-use App\Repositories\SaleItenRepository;
+use App\Repositories\SaleItemRepository;
 use App\Repositories\SaleRepository;
 use App\Transformers\SaleTransformer;
 use Carbon\Carbon;
@@ -20,19 +20,19 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 class SaleService extends AppService
 {
     protected RepositoryInterface $repository;
-    private SaleItenRepository $saleItenRepository;
+    private SaleItemRepository $saleItenRepository;
     private ProductService $productService;
     private InvoicingService $invoicingService;
 
     /**
      * @param SaleRepository $repository
-     * @param SaleItenRepository $saleItenRepository
+     * @param SaleItemRepository $saleItenRepository
      * @param ProductService $productService
      * @param InvoicingService $invoicingService
      */
     public function __construct(
         SaleRepository $repository,
-        SaleItenRepository $saleItenRepository,
+        SaleItemRepository $saleItenRepository,
         ProductService $productService,
         InvoicingService $invoicingService
     ) {

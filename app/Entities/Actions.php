@@ -7,17 +7,20 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Spending.
+ * Class Actions.
  *
  * @package namespace App\Entities;
  */
-class Spending extends Model implements Transformable
+class Actions extends Model implements Transformable
 {
     use TransformableTrait;
 
     protected $fillable = [
-        'description',
-        'value',
-        'spending_type',
+        'name'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
     ];
 }

@@ -5,9 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class CreateSaleItens]Table.
+ * Class CreateSaleItemsTable.
  */
-class CreateSaleItensTable extends Migration
+class CreateSaleItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateSaleItensTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('sale_itens', function (Blueprint $table) {
+        Schema::create('sale_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('qtd');
             $table->float('amount');

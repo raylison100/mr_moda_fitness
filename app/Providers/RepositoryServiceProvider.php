@@ -12,8 +12,8 @@ use App\Repositories\ProductRepository;
 use App\Repositories\ProductRepositoryEloquent;
 use App\Repositories\ProductStatusRepository;
 use App\Repositories\ProductStatusRepositoryEloquent;
-use App\Repositories\SaleItenRepository;
-use App\Repositories\SaleItenRepositoryEloquent;
+use App\Repositories\SaleItemRepository;
+use App\Repositories\SaleItemRepositoryEloquent;
 use App\Repositories\SaleRepository;
 use App\Repositories\SaleRepositoryEloquent;
 use App\Repositories\SpendingRepository;
@@ -57,8 +57,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductStatusRepository::class, ProductStatusRepositoryEloquent::class);
         $this->app->bind(ProductRepository::class, ProductRepositoryEloquent::class);
         $this->app->bind(SaleRepository::class, SaleRepositoryEloquent::class);
-        $this->app->bind(SaleItenRepository::class, SaleItenRepositoryEloquent::class);
+        $this->app->bind(SaleItemRepository::class, SaleItemRepositoryEloquent::class);
         $this->app->bind(InvoicingRepository::class, InvoicingRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\UserAbilitiesRepository::class, \App\Repositories\UserAbilitiesRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\ActionsRepository::class, \App\Repositories\ActionsRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\SubjectsRepository::class, \App\Repositories\SubjectsRepositoryEloquent::class);
         //:end-bindings:
     }
 }

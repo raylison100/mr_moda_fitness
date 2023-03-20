@@ -42,8 +42,8 @@ class Product extends Model implements Transformable
         return $this->belongsTo(SubCategory::class);
     }
 
-    public function saleItens(): HasMany
+    public function saleItems(): HasMany
     {
-        return $this->hasMany(SaleIten::class);
+        return $this->hasMany(SaleItem::class);
     }
 }

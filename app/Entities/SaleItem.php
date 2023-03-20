@@ -12,7 +12,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  *
  * @package namespace App\Entities;
  */
-class SaleIten extends Model implements Transformable
+class SaleItem extends Model implements Transformable
 {
     use TransformableTrait;
 

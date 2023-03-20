@@ -2,7 +2,7 @@
 
 namespace App\Transformers;
 
-use App\Entities\SaleIten;
+use App\Entities\SaleItem;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -15,11 +15,11 @@ class SaleItenTransformer extends TransformerAbstract
     /**
      * Transform the SaleItens] entity.
      *
-     * @param SaleIten $model
+     * @param SaleItem $model
      *
      * @return array
      */
-    public function transform(SaleIten $model): array
+    public function transform(SaleItem $model): array
     {
         return [
             'id' => (int)$model->id,

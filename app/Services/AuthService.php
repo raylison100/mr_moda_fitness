@@ -2,23 +2,32 @@
 
 namespace App\Services;
 
+use App\Presenters\UserAbilityPresenter;
+use App\Presenters\UserPresenter;
+use App\Repositories\UserAbilitiesRepository;
 use App\Repositories\UserRepository;
-use App\Transformers\UserTransformer;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 class AuthService extends AppService
 {
     protected RepositoryInterface $repository;
 
+    private UserAbilitiesRepository $userAbilitiesRepository;
+
     /**
      * @param UserRepository $repository
+     * @param UserAbilitiesRepository $userAbilitiesRepository
      */
     public function __construct(
         UserRepository $repository,
+        UserAbilitiesRepository $userAbilitiesRepository
     ) {
         $this->repository = $repository;
+        $this->userAbilitiesRepository = $userAbilitiesRepository;
     }
 
     /**
@@ -39,23 +48,34 @@ class AuthService extends AppService
 
         $user = Auth::user();
 
-        $tokenResult = $user->createToken('Personal Access Token');
+        $userAbilities = $this->userAbilitiesRepository
+            ->skipPresenter()
+            ->findWhere(['user_id' => $user->id]);
+
+        if (empty($userAbilities)) {
+            throw new Exception('Unauthorized', 401);
+        }
+
+        $userAbilitiesData = [];
+
+        foreach ($userAbilities as $userAbility) {
+            $userAbilitiesData[] = strtolower($userAbility->subject->name . '-' . $userAbility->action->name);
+        }
+
+        $tokenResult = $user->createToken(
+            'Personal Access Token',
+            $userAbilitiesData,
+            Carbon::now()
+                ->addHours(2)
+        );
+
         $token = $tokenResult->plainTextToken;
 
         return [
             'accessToken' => $token,
             'token_type' => 'Bearer',
-            'userData' => $this->user($user),
-            'userAbilities' => [
-                [
-                    'action' => 'read',
-                    'subject' => 'Auth'
-                ],
-                [
-                    'action' => 'read',
-                    'subject' => 'Sales'
-                ]
-            ]
+            'userData' => $this->userFormat($user),
+            'userAbilities' => $this->userAbilityFormat($user->userAbility)
         ];
     }
 
@@ -66,32 +86,55 @@ class AuthService extends AppService
      */
     public function register(array $data): array
     {
-        $user = $this->repository->skipPresenter()->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password'])
-        ]);
+        try {
+            DB::beginTransaction();
+            $user = $this->repository->skipPresenter()->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password'])
+            ]);
 
-        if ($user) {
+            foreach ($data['abilities'] as $ability) {
+                $this->userAbilitiesRepository->create([
+                    'user_id' => $user->id,
+                    'action_id' => $ability['action_id'],
+                    'subject_id' => $ability['subject_id']
+                ]);
+            }
+
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult->plainTextToken;
 
+            DB::commit();
             return [
                 'message' => 'Successfully created user!',
                 'accessToken' => $token,
             ];
-        } else {
-            throw new Exception('Provide proper details');
+        } catch (\Exception) {
+            DB::rollBack();
+            throw new \Exception('Falha ao criar funcionario', 500);
         }
     }
 
     /**
      * @param $user
      * @return array
+     * @throws Exception
      */
-    public function user($user): array
+    public function userFormat($user): array
     {
-        $transformer = new UserTransformer();
-        return $transformer->transform($user);
+        $userPresenter = new UserPresenter();
+        return $userPresenter->present($user)['data'];
+    }
+
+    /**
+     * @param $userAbility
+     * @return array
+     * @throws Exception
+     */
+    public function userAbilityFormat($userAbility): array
+    {
+        $userAbilityPresenter = new UserAbilityPresenter();
+        return $userAbilityPresenter->present($userAbility)['data'];
     }
 }
