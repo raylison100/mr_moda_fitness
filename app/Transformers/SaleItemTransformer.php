@@ -10,10 +10,10 @@ use League\Fractal\TransformerAbstract;
  *
  * @package namespace App\Transformers;
  */
-class SaleItenTransformer extends TransformerAbstract
+class SaleItemTransformer extends TransformerAbstract
 {
     /**
-     * Transform the SaleItens] entity.
+     * Transform the SaleItems entity.
      *
      * @param SaleItem $model
      *

@@ -38,7 +38,7 @@ class SaleDetailTransformer extends TransformerAbstract
     {
         $itens = [];
 
-        foreach ($model->saleItens as $item) {
+        foreach ($model->saleItems as $item) {
             $itens[] = [
                 'qtd' => $item->qtd,
                 'amount' => $item->amount,
