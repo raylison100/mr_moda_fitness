@@ -16,7 +16,7 @@ services:
         volumes:
             - ./:/var/www
         networks:
-            - mr_modas_fitness
+            - mr_moda_fitness
 
     nginx_api_mr_moda_fitness:
         image: nginx:alpine
@@ -28,7 +28,18 @@ services:
         ports:
             - "8000:80"
         networks:
-            - mr_modas_fitness
+            - mr_moda_fitness
+
+    mr_moda_fitness_app:
+        build:
+            context: ../mr_moda_fitness_app
+            dockerfile: Dockerfile
+        container_name: mr_moda_fitness_app
+        restart: unless-stopped
+        ports:
+            - "8001:80"
+        networks:
+            - mr_moda_fitness
 
     mysql:
         image: mysql:5.7.22
@@ -45,13 +56,13 @@ services:
         ports:
             - 3306:3306
         networks:
-            - mr_modas_fitness
+            - mr_moda_fitness
 
     redis:
         image: redis:latest
         container_name: redis
         networks:
-            - mr_modas_fitness
+            - mr_moda_fitness
 
     redis-commander:
         container_name: redis-commander
@@ -61,7 +72,7 @@ services:
         depends_on:
             - redis
         networks:
-            - mr_modas_fitness
+            - mr_moda_fitness
 
     pma:
         image: phpmyadmin/phpmyadmin:latest
@@ -71,8 +82,8 @@ services:
         environment:
             - PMA_ARBITRARY=1
         networks:
-            - mr_modas_fitness
+            - mr_moda_fitness
 
 networks:
-    mr_modas_fitness:
+    mr_moda_fitness:
         driver: bridge
