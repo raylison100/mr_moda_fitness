@@ -18,19 +18,22 @@ Route::get('/', function () {
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
-
-    Route::group(['middleware' => 'auth:sanctum'], function () {
-        Route::get('logout', [AuthController::class, 'logout']);
-        Route::get('user', [AuthController::class, 'user']);
-    });
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'users'], function () {
-        Route::get('abilities', [UsersController::class, 'userAbilities'])
+        Route::get('abilities', [UsersController::class, 'userAbilities']);
+        Route::apiResource('', UsersController::class)->parameters([
+            '' => 'id'
+        ])->except(['store', 'update', 'destroy']);
+    })->middleware(['abilities:auth-read']);
+
+    Route::group(['prefix' => 'auth'], function () {
+        Route::get('logout', [AuthController::class, 'logout']);
+        Route::get('user', [AuthController::class, 'user']);
+        Route::put('update/{id}', [AuthController::class, 'update'])
             ->middleware(['abilities:auth-read']);
     });
-
 
     Route::group(['prefix' => 'categories'], function () {
         Route::apiResource('', CategoriesController::class)->parameters([

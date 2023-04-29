@@ -32,7 +32,7 @@ class UsersController extends Controller
             $data = $this->service->userAbilities();
             return response()->json($data, empty($data) ? 204 : 200);
         } catch (\Exception $e) {
-            return $this->sendBadResposnse($e);
+            return $this->sendBadResponse($e);
         }
     }
 }

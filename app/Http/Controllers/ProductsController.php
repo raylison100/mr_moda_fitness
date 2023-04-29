@@ -35,7 +35,7 @@ class ProductsController extends Controller
 
             return response()->json($data, empty($data) ? 204 : 200);
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 }

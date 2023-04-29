@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Presenters\UserDetailPresenter;
 use App\Repositories\ActionsRepository;
 use App\Repositories\SubjectsRepository;
 use App\Repositories\UserRepository;
@@ -36,17 +37,36 @@ class UserService extends AppService
     public function userAbilities(): array
     {
         $abilities = [];
-
         $subjects = $this->subjectsRepository->skipPresenter()->all();
         $actions = $this->actionsRepository->skipPresenter()->all();
 
         foreach ($subjects as $subject) {
             $abilities[] = [
-                'subject' => $subject->toArray(),
-                'actions' => $actions->toArray()
+                'subject' => [
+                  'id' => $subject->id,
+                  'name' => $subject->name
+                ],
+                'actions' => array_map(function ($item) {
+                    return [
+                        'id' => $item['id'],
+                        'name' => $item['name']
+                    ];
+                }, $actions->toArray())
             ];
         }
 
         return $abilities;
+    }
+
+    /**
+     * @param $id
+     * @param bool $skipPresenter
+     * @return mixed
+     */
+    public function find($id, bool $skipPresenter = false): mixed
+    {
+        return $this->repository
+            ->setPresenter(UserDetailPresenter::class)
+            ->skipPresenter($skipPresenter)->find($id);
     }
 }

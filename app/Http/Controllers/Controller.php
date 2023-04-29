@@ -27,7 +27,7 @@ class Controller extends BaseController
         try {
             return response()->json($this->service->all($request->query->get('limit', 15)));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -41,7 +41,7 @@ class Controller extends BaseController
         try {
             return response()->json($this->service->find($id));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -54,21 +54,21 @@ class Controller extends BaseController
         try {
             return response()->json($this->service->create($request->all()));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
     /**
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         try {
             return response()->json($this->service->update($request->all(), $id));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -82,7 +82,7 @@ class Controller extends BaseController
         try {
             return response()->json($this->service->delete($id));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -90,7 +90,7 @@ class Controller extends BaseController
      * @param Exception $exception
      * @return JsonResponse
      */
-    protected function sendBadResposnse(Exception $exception): JsonResponse
+    protected function sendBadResponse(Exception $exception): JsonResponse
     {
         Log::error($exception->getMessage());
         Log::error($exception->getTraceAsString());

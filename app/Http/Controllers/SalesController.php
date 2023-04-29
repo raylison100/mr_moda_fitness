@@ -34,7 +34,7 @@ class SalesController extends Controller
         try {
             return response()->json($this->service->createSales($request->all()));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -43,7 +43,7 @@ class SalesController extends Controller
         try {
             return response()->json($this->service->saleCancellation($id));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 }

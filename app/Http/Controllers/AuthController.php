@@ -40,7 +40,7 @@ class AuthController extends Controller
 
             return response()->json($this->service->login($request->all()));
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -54,13 +54,11 @@ class AuthController extends Controller
             $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string|unique:users',
-                'password' => 'required|string',
-                'c_password' => 'required|same:password'
             ]);
 
             return response()->json($this->service->register($request->all()), 201);
         } catch (Exception $exception) {
-            return $this->sendBadResposnse($exception);
+            return $this->sendBadResponse($exception);
         }
     }
 
@@ -84,5 +82,23 @@ class AuthController extends Controller
     public function user(Request $request): JsonResponse
     {
         return response()->json($this->service->user($request->user()));
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        try {
+            $request->validate([
+                'abilities' => 'required|array'
+            ]);
+
+            return response()->json($this->service->updateUser($request->all(), $id), 201);
+        } catch (Exception $exception) {
+            return $this->sendBadResponse($exception);
+        }
     }
 }

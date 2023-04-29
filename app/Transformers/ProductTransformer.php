@@ -30,7 +30,7 @@ class ProductTransformer extends TransformerAbstract
             "final_value" => number_format($model->final_value, 2),
             "product_type" => $model->product_type,
             "stocks" => $this->getStocks($model),
-            "departament" => [
+            "department" => [
                 "id" => $model->subCategory->category->department->id,
                 "name" => $model->subCategory->category->department->name,
             ],

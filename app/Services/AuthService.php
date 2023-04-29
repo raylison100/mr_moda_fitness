@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entities\User;
 use App\Presenters\UserAbilityPresenter;
 use App\Presenters\UserPresenter;
 use App\Repositories\UserAbilitiesRepository;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 class AuthService extends AppService
@@ -91,16 +93,10 @@ class AuthService extends AppService
             $user = $this->repository->skipPresenter()->create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password'])
+                'password' => bcrypt("12345678")
             ]);
 
-            foreach ($data['abilities'] as $ability) {
-                $this->userAbilitiesRepository->create([
-                    'user_id' => $user->id,
-                    'action_id' => $ability['action_id'],
-                    'subject_id' => $ability['subject_id']
-                ]);
-            }
+            $this->setUserAbilities($data['abilities'], $user);
 
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult->plainTextToken;
@@ -136,5 +132,53 @@ class AuthService extends AppService
     {
         $userAbilityPresenter = new UserAbilityPresenter();
         return $userAbilityPresenter->present($userAbility)['data'];
+    }
+
+    /**
+     * @param array $data
+     * @param int $id
+     * @return array
+     * @throws Exception
+     */
+    public function updateUser(array $data, int $id): array
+    {
+        try {
+            DB::beginTransaction();
+            $user = $this->repository->skipPresenter()->find($id);
+
+            $this->userAbilitiesRepository->where('user_id', $user->id)->delete();
+
+            $this->setUserAbilities($data['abilities'], $user);
+
+            DB::commit();
+            return [
+                'message' => 'Successfully updated user!',
+            ];
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+            Log::error($exception->getTraceAsString());
+            throw new \Exception('Falha ao atualizar funcionario', 500);
+        }
+    }
+
+    /**
+     * @param array $abilities
+     * @param User $user
+     * @return void
+     */
+    private function setUserAbilities(array $abilities, User $user): void
+    {
+        collect($abilities)
+            ->each(function ($ability) use ($user) {
+                collect($ability['actions'])
+                    ->each(function ($action) use ($user, $ability) {
+                        $this->userAbilitiesRepository->create([
+                            'user_id' => $user->id,
+                            'action_id' => $action['id'],
+                            'subject_id' => $ability['subject_id']
+                        ]);
+                    });
+            });
     }
 }
