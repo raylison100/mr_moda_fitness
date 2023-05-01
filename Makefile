@@ -15,13 +15,13 @@ down:
 	docker-compose down
 
 migrate:
-	php artisan migrate
+	docker exec $(CONTAINER_NAME) php artisan migrate:fresh
 
 seed:
-	php artisan db:seed
+	docker exec $(CONTAINER_NAME) php artisan db:seed
 
 clear:
-	php artisan cache:clear
+	docker exec $(CONTAINER_NAME) php artisan optimize:clear
 
 composer-install:
 	docker exec $(CONTAINER_NAME) composer install --no-interaction --no-scripts
