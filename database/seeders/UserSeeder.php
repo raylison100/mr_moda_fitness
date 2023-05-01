@@ -57,6 +57,28 @@ class UserSeeder extends Seeder
         DB::table('user_abilities')->updateOrInsert(
             ['id' => 3],
             [
+                'user_id' => 1,
+                'action_id' => 1,
+                'subject_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        DB::table('user_abilities')->updateOrInsert(
+            ['id' => 4],
+            [
+                'user_id' => 1,
+                'action_id' => 2,
+                'subject_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        DB::table('user_abilities')->updateOrInsert(
+            ['id' => 5],
+            [
                 'user_id' => 2,
                 'action_id' => 1,
                 'subject_id' => 1,
@@ -66,11 +88,33 @@ class UserSeeder extends Seeder
         );
 
         DB::table('user_abilities')->updateOrInsert(
-            ['id' => 4],
+            ['id' => 6],
             [
                 'user_id' => 2,
                 'action_id' => 2,
                 'subject_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        DB::table('user_abilities')->updateOrInsert(
+            ['id' => 7],
+            [
+                'user_id' => 2,
+                'action_id' => 1,
+                'subject_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        DB::table('user_abilities')->updateOrInsert(
+            ['id' => 8],
+            [
+                'user_id' => 2,
+                'action_id' => 2,
+                'subject_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]

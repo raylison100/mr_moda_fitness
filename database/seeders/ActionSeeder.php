@@ -22,7 +22,7 @@ class ActionSeeder extends Seeder
         DB::table('actions')->updateOrInsert(
             ['id' => 2],
             [
-                'name' => 'white',
+                'name' => 'write',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]
