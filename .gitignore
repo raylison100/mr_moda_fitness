@@ -16,3 +16,4 @@ yarn-error.log
 /.docker
 /data/db/
 /.data/
+/public/core.*
