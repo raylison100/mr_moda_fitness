@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
                 'id' => 1,
                 'name' => "Raylison Nunes dos Santos",
                 'email' => "raylison100@gmail.com",
-                'password' => bcrypt('12345678'),
+                'password' => bcrypt('tE7NQT-b4wVM5eNJ'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
                 'id' => 2,
                 'name' => "Mariana Rosa Silva de Oliveira",
                 'email' => "rosamariana362@gmail.com",
-                'password' => bcrypt('12345678'),
+                'password' => bcrypt('Qct-yPRyt2K7xKq_'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]
@@ -47,8 +47,8 @@ class UserSeeder extends Seeder
             ['id' => 2],
             [
                 'user_id' => 1,
-                'action_id' => 1,
-                'subject_id' => 2,
+                'action_id' => 2,
+                'subject_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]
@@ -66,11 +66,11 @@ class UserSeeder extends Seeder
         );
 
         DB::table('user_abilities')->updateOrInsert(
-            ['id' => 3],
+            ['id' => 4],
             [
                 'user_id' => 2,
-                'action_id' => 1,
-                'subject_id' => 2,
+                'action_id' => 2,
+                'subject_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]

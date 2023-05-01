@@ -27,5 +27,32 @@ class SubjectSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]
         );
+
+        DB::table('subjects')->updateOrInsert(
+            ['id' => 3],
+            [
+                'name' => 'Products',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        DB::table('subjects')->updateOrInsert(
+            ['id' => 4],
+            [
+                'name' => 'Spendings',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+
+        DB::table('subjects')->updateOrInsert(
+            ['id' => 5],
+            [
+                'name' => 'Dashboard',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
     }
 }

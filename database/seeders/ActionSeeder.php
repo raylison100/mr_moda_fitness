@@ -18,5 +18,14 @@ class ActionSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]
         );
+
+        DB::table('actions')->updateOrInsert(
+            ['id' => 2],
+            [
+                'name' => 'white',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
     }
 }

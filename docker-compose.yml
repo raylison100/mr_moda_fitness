@@ -18,9 +18,9 @@ services:
         networks:
             - mr_moda_fitness
 
-    nginx_api_mr_moda_fitness:
+    api_mr_moda_fitness:
         image: nginx:alpine
-        container_name: nginx_api_mr_moda_fitness
+        container_name: api_mr_moda_fitness
         restart: unless-stopped
         volumes:
             - ./:/var/www
@@ -30,11 +30,11 @@ services:
         networks:
             - mr_moda_fitness
 
-    mr_moda_fitness_app:
+    dashboard_mr_moda_fitness_app:
         build:
             context: ../mr_moda_fitness_app
             dockerfile: Dockerfile
-        container_name: mr_moda_fitness_app
+        container_name: dashboard_mr_moda_fitness_app
         restart: unless-stopped
         ports:
             - "8001:80"
