@@ -15,6 +15,7 @@ class ProductRepositoryEloquent extends BaseRepository implements ProductReposit
 {
     protected $fieldSearchable = [
         'name'=>'like',
+        'id'
     ];
 
     /**
