@@ -8,14 +8,18 @@ jobs:
   deploy:
      runs-on: ubuntu-latest
      steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v3.5.2
+        
       - name: Executing remote ssh commands using key
-        uses: appleboy/ssh-action@v0.1.7
+        uses: easingthemes/ssh-deploy@v4.1.8
         with:
-          host: ${{ secrets.SSH }}
-          key: ${{ secrets.KEY }}
-          script: |
+          REMOTE_HOST: ${{ secrets.SSH }}
+          SSH_PRIVATE_KEY:: ${{ secrets.KEY }}
+          SCRIPT_AFTER: |
             cd var/www/html/mr_moda_fitness/mr_moda_fitness
             git pull origin main
             make down
             make install
             make up   
+        
