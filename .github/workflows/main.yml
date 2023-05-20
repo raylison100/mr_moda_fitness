@@ -12,11 +12,11 @@ jobs:
         uses: actions/checkout@v3.5.2
         
       - name: Executing remote ssh commands using key
-        uses: easingthemes/ssh-deploy@v4.1.8
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          REMOTE_HOST: ${{ secrets.SSH }}
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
-          SCRIPT_AFTER: |
+          host: ${{ secrets.SSH }}
+          key: ${{ secrets.KEY }}
+          script: |
             cd var/www/html/mr_moda_fitness/mr_moda_fitness
             git pull origin main
             make down
