@@ -14,7 +14,8 @@ jobs:
       - name: Executing remote ssh commands using key
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.SSH }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME}}
           key: ${{ secrets.KEY }}
           script: |
             cd var/www/html/mr_moda_fitness/mr_moda_fitness
