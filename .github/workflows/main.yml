@@ -1,5 +1,5 @@
 name: Build and Deploy
-on: 
+on:
   push:
     branches:
       - main
@@ -8,9 +8,9 @@ jobs:
   deploy:
      runs-on: ubuntu-latest
      steps:
-      - name: Checkout do repositorio
+      - name: Repository checkout
         uses: actions/checkout@v3.5.2
-        
+
       - name: Executing remote ssh commands using key
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -22,5 +22,5 @@ jobs:
             git pull origin main
             make down
             make install
-            make up   
-        
+            make up
+
