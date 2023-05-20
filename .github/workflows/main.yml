@@ -20,7 +20,5 @@ jobs:
           script: |
             cd /var/www/html/mr_moda_fitness/mr_moda_fitness
             git pull origin main
-            make down
-            make install
-            make up
+            make
 
