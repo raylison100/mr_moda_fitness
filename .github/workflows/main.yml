@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            cd var/www/html/mr_moda_fitness/mr_moda_fitness
+            cd /var/www/html/mr_moda_fitness/mr_moda_fitness
             git pull origin main
             make down
             make install
