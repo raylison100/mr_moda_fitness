@@ -51,7 +51,7 @@ services:
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_USER: ${DB_USERNAME}
         volumes:
-            - ./data/mysql/dbdata:/var/lib/mysql
+            - ./data/mysql:/var/lib/mysql
         command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-buffer-pool-size=4G
         ports:
             - 3306:3306
@@ -83,6 +83,10 @@ services:
             - PMA_ARBITRARY=1
         networks:
             - mr_moda_fitness
+
+volumes:
+    data:
+        driver: local
 
 networks:
     mr_moda_fitness:
