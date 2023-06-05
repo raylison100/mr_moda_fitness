@@ -49,11 +49,11 @@ class SaleService extends AppService
      */
     public function createSales(array $data): array
     {
-        $itens = $data['itens'];
+        $items = $data['items'];
 
-        unset($data['itens']);
+        unset($data['items']);
 
-        foreach ($itens as $item) {
+        foreach ($items as $item) {
             if (!$this->productService->checkStock(
                 $item['stock']['code'],
                 $item['stock']['qtd']
@@ -69,12 +69,12 @@ class SaleService extends AppService
 
             $sale = $this->repository->skipPresenter()->create($data);
 
-            foreach ($itens as $item) {
+            foreach ($items as $item) {
                 $stock = $this->productService->findStockByCode($item['stock']['code']);
 
                 $this->saleItenRepository->create([
                     'qtd' => $item['stock']['qtd'],
-                    'amount' => $item['total_itens'],
+                    'amount' => $item['total_items'],
                     'stock_id' => $stock->id,
                     'sale_id' => $sale->id
                 ]);
