@@ -15,7 +15,7 @@ down:
 	docker-compose down
 
 migrate:
-	docker exec $(CONTAINER_NAME) php artisan migrate:fresh
+	docker exec $(CONTAINER_NAME) php artisan migrate
 
 seed:
 	docker exec $(CONTAINER_NAME) php artisan db:seed

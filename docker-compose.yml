@@ -41,22 +41,22 @@ services:
         networks:
             - mr_moda_fitness
 
-    mysql:
-        image: mysql:5.7.22
-        container_name: mysql
-        restart: unless-stopped
-        environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
-        volumes:
-            - ./data/mysql:/var/lib/mysql
-        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-buffer-pool-size=4G
-        ports:
-            - 3306:3306
-        networks:
-            - mr_moda_fitness
+#    mysql:
+#        image: mysql:5.7.22
+#        container_name: mysql
+#        restart: unless-stopped
+#        environment:
+#            MYSQL_DATABASE: ${DB_DATABASE}
+#            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+#            MYSQL_PASSWORD: ${DB_PASSWORD}
+#            MYSQL_USER: ${DB_USERNAME}
+#        volumes:
+#            - ./data/mysql:/var/lib/mysql
+#        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-buffer-pool-size=4G
+#        ports:
+#            - 3306:3306
+#        networks:
+#            - mr_moda_fitness
 
     redis:
         image: redis:latest
