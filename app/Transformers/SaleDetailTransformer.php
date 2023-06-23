@@ -30,16 +30,16 @@ class SaleDetailTransformer extends TransformerAbstract
             'installment_value' => number_format($model->installment_value, 2),
             'cash_value' => number_format($model->cash_value ?? 0, 2),
             'discount_value' => number_format($model->discount_value ?? 0, 2),
-            "itens" => $this->getItens($model),
+            "items" => $this->getItems($model),
         ];
     }
 
-    private function getItens(Sale $model): array
+    private function getItems(Sale $model): array
     {
-        $itens = [];
+        $items = [];
 
         foreach ($model->saleItems as $item) {
-            $itens[] = [
+            $items[] = [
                 'qtd' => $item->qtd,
                 'amount' => $item->amount,
                 'stock' => [
@@ -53,6 +53,6 @@ class SaleDetailTransformer extends TransformerAbstract
             ];
         }
 
-        return $itens;
+        return $items;
     }
 }
